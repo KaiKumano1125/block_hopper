@@ -1,0 +1,19 @@
+{
+  "name": "my-game-project",
+  "version": "1.0.0",
+  "description": "A simple game project using HTML, CSS, and JavaScript.",
+  "main": "src/game.js",
+  "scripts": {
+    "start": "open src/gamecode.html"
+  },
+  "keywords": [
+    "game",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
