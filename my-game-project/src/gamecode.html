@@ -10,6 +10,7 @@ canvas {
 </style>
 </head>
 <body onload="startGame()">
+<script src="https://cdn.jsdelivr.net/npm/pitchfinder@1.0.0/dist/pitchfinder.min.js"></script>
 <script>
 
 var canvasWidth = 600;
@@ -37,6 +38,7 @@ function startGame() {
     block = new createBlock();
     // Assign your scoreLabel variable a value from scoreLabel()
     scoreLabel = new createScoreLabel(10, 30);
+    setupMicrophone();
 }
 
 var gameCanvas = {
@@ -74,9 +76,9 @@ function createPlayer(width, height, x) {
         }
     }
     this.jump = function() {
-        if (isJumping) {
-            this.y -= jumpSpeed;
-            jumpSpeed += 0.3;
+        if (!isJumping) {
+            isJumping = true;
+            jumpSpeed = -10;
         }
     }
 }
@@ -88,22 +90,25 @@ function createBlock() {
     
     this.x = canvasWidth;
     this.y = canvasHeight - height;
+    this.width = width;
+    this.height = height;
+    this.speed = speed;
     
     this.draw = function() {
         ctx = gameCanvas.context;
         ctx.fillStyle = "red";
-        ctx.fillRect(this.x, this.y, width, height);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     this.attackPlayer = function() {
-        this.x -= speed;
+        this.x -= this.speed;
         this.returnToAttackPosition();
     }
     this.returnToAttackPosition = function() {
         if (this.x < 0) {
-            width = randomNumber(10, 50);
-            height = randomNumber(50, 200);
-            speed = randomNumber(4, 6);
-            this.y = canvasHeight - height;
+            this.width = randomNumber(10, 50);
+            this.height = randomNumber(50, 200);
+            this.speed = randomNumber(4, 6);
+            this.y = canvasHeight - this.height;
             this.x = canvasWidth;
             // Increase your score if your block made it to the edge
             score++;
@@ -172,6 +177,30 @@ document.body.onkeyup = function(e) {
         isJumping = true;
         setTimeout(function() { resetJump(); }, 1000);
     }
+}
+
+function setupMicrophone() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(stream) {
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            var source = audioContext.createMediaStreamSource(stream);
+            var processor = audioContext.createScriptProcessor(1024, 1, 1);
+            var detectPitch = Pitchfinder.YIN();
+
+            source.connect(processor);
+            processor.connect(audioContext.destination);
+
+            processor.onaudioprocess = function(event) {
+                var inputBuffer = event.inputBuffer.getChannelData(0);
+                var pitch = detectPitch(inputBuffer);
+                if (pitch && pitch > 200) { // Adjust pitch threshold as needed
+                    player.jump();
+                }
+            };
+        })
+        .catch(function(err) {
+            console.error('Error accessing microphone:', err);
+        });
 }
 
 </script>
