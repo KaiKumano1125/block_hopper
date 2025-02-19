@@ -64,10 +64,34 @@ function createScoreLabel(x, y) {
     }
 }
 
+function createObstacle(width, height, x, y) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+
+    this.draw = function() {
+        ctx = gameCanvas.context;
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+
+    this.update = function() {
+        this.x -= 2; // Move the obstacle to the left
+        if (this.x < 0) {
+            this.x = canvasWidth; // Reset the obstacle position
+        }
+    }
+}
+
+var obstacle = new createObstacle(20, 20, canvasWidth, playerYPosition);
+
 function updateCanvas() {
     gameCanvas.context.clearRect(0, 0, canvasWidth, canvasHeight);
     player.draw();
     block.draw();
+    obstacle.update();
+    obstacle.draw();
     scoreLabel.draw();
     // Additional game logic can be added here
 }
