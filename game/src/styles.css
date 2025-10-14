@@ -1,0 +1,30 @@
+h1 {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    color: #222;
+    margin-top: 20px;
+}
+
+#restartBtn {
+    display: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px auto;
+    display: block;
+}
+
+#restartBtn:hover {
+    background-color: #0056b3;
+}
+
+canvas {
+    border: 2px solid black;
+    background-color: #9bfcd7;
+    display: block;
+    margin: 20px auto;
+}
