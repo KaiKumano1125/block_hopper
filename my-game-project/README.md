@@ -1,4 +1,4 @@
-# My Game Project
+# Game Project
 
 ## Overview
 This project is a simple game built using HTML, CSS, and JavaScript. It features a player that can jump and interact with blocks, providing a basic gaming experience.
