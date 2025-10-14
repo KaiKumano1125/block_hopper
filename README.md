@@ -9,9 +9,13 @@ Press the **Enter key** to jump — the goal is to survive as long as possible a
 
 ## Project Structure
 block-hopper/
+
 ├── gamecode.html # Main HTML file that runs the game
+
 ├── game.js # JavaScript game logic
+
 ├── styles.css # Visual styles for layout and design
+
 └── README.md # Project documentation
 
 
