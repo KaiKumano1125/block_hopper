@@ -34,7 +34,7 @@ function startGame() {
     },
   };
 
-  player = new Player(30, 30, 10);
+  player = new Player(50, 65, 10);
   block = new Block();
   scoreLabel = new ScoreLabel(10, 30);
 
@@ -50,6 +50,9 @@ class Player {
     this.y = canvasHeight - height;
     this.velocityY = 0;
     this.isJumping = false;
+    this.image = new Image();
+    this.image.src = "../character/player.png";
+    
   }
 
   update() {
@@ -65,29 +68,38 @@ class Player {
 
   jump() {
     if (!this.isJumping) {
-      this.velocityY = -9;
+      this.velocityY = -12;
       this.isJumping = true;
     }
   }
 
   draw() {
     const ctx = gameCanvas.context;
-    ctx.fillStyle = "black";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
 
 class Block {
   constructor() {
+
+    this.imagePaths = [
+      "../character/penguin_giant.png",
+      "../character/1.png",
+      "../character/2.png",];
+
     this.reset();
+
   }
 
   reset() {
-    this.width = randomNumber(20, 50);
-    this.height = randomNumber(30, 100);
+    this.width = randomNumber(30, 80);
+    this.height = randomNumber(50, 130);
     this.x = canvasWidth;
     this.y = canvasHeight - this.height;
-    this.speed = randomNumber(4, 6);
+    this.speed = randomNumber(4, 9);
+    const randomIndex = randomNumber(0, this.imagePaths.length - 1);
+    this.image = new Image();
+    this.image.src = this.imagePaths[randomIndex];
   }
 
   update() {
@@ -100,8 +112,7 @@ class Block {
 
   draw() {
     const ctx = gameCanvas.context;
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 }
 
